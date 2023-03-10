@@ -514,7 +514,6 @@ dfustate:
 	if (libusb_set_configuration(dfu_root->dev_handle, dfu_root->configuration) < 0) {
 		errx(EX_IOERR, "Cannot set configuration");
 	}
-#endif
 	printf("Claiming USB DFU Interface...\n");
 	if (libusb_claim_interface(dfu_root->dev_handle, dfu_root->interface) < 0) {
 		errx(EX_IOERR, "Cannot claim interface");
@@ -524,6 +523,7 @@ dfustate:
 	if (libusb_set_interface_alt_setting(dfu_root->dev_handle, dfu_root->interface, dfu_root->altsetting) < 0) {
 		errx(EX_IOERR, "Cannot set alternate interface");
 	}
+#endif
 
 status_again:
 	printf("Determining device status: ");

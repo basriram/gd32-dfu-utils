@@ -112,6 +112,27 @@ struct memsegment *parse_memory_gd32(char *model_desc_str)
 			segment.end = segment.start +
 				pages * segment.pagesize - 1;
 		break;
+		case 'H':
+			strcpy(name, "GD32E103");
+			segment.start = 0x08000000;
+			segment.memtype = DFUSE_READABLE | DFUSE_ERASABLE | DFUSE_WRITEABLE;
+			segment.pagesize = 1024;
+			switch(model_desc_str[2])
+			{
+				case 'B':
+					pages = 128;
+				break;
+				case '8':
+					pages = 64;
+				break;
+				default:
+					warnx("GD32E103: Use 64KB for default");
+					pages = 64;
+				break;
+			}
+			segment.end = segment.start +
+				pages * segment.pagesize - 1;
+		break;
 		default:
 			errx(EX_IOERR, "I don't know what model it is");
 			return NULL;

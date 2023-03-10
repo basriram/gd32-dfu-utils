@@ -307,7 +307,15 @@ int dfuse_do_upload(struct dfu_if *dif, int xfer_size, int fd,
 	if (dfuse_address) {
 		struct memsegment *segment;
 
-		mem_layout = parse_memory_layout((char *)dif->alt_name);
+                if ((dif->quirks & QUIRK_GD32) && dif->altsetting == 0)
+                {
+                       printf("GD32 flash memory access detected\n");
+                       mem_layout = parse_memory_gd32(dif->serial_name);
+                }
+                else
+                {
+                      mem_layout = parse_memory_layout((char *)dif->alt_name);
+                }
 		if (!mem_layout)
 			errx(EX_IOERR, "Failed to parse memory layout");
 
